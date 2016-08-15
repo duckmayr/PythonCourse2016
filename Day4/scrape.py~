@@ -9,6 +9,11 @@ import urllib2
 import random
 import time
 import os
+import re
+
+#from nltk.util import clean_html
+#import urllib2 
+
 
 # Open a web page
 web_address='https://polisci.wustl.edu/faculty/specialization'
@@ -22,12 +27,10 @@ soup.prettify()
 soup.find_all('h3')
 soup.find_all('a')
 
-# Get the script of a certain tag
-mytitle=soup.find_all('h3')[0]
-mytitle.script
 
 # Get the attributes
 my_a_tag=soup.find_all('a')[2]
+my_a_tag = re.sub(r'<[^>]+>', '', str(my_a_tag)) #remove tags
 my_a_tag.attrs #Gives a dictionary with the attributes
 my_a_tag.attrs.keys()
 my_a_tag['alt']
