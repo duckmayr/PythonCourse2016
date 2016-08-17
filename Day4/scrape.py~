@@ -42,6 +42,8 @@ soup.find_all('a',{'alt':"Washington University in St. Louis" })
 mysection=soup.find_all('div')[0]
 mysection.a #Gives the 'a' tag within the 'div' tag
 mysection.find_all('a') #Gives the list of all 'a' tags within the 'div' tag
+mysection.get_text()
+
 
 # Creating a tree of objects
 

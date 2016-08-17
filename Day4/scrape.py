@@ -30,7 +30,7 @@ soup.find_all('a')
 
 # Get the attributes
 my_a_tag=soup.find_all('a')[2]
-my_a_tag = re.sub(r'<[^>]+>', '', str(my_a_tag)) #remove tags
+re.sub(r'<[^>]+>', '', str(my_a_tag)) #remove tags
 my_a_tag.attrs #Gives a dictionary with the attributes
 my_a_tag.attrs.keys()
 my_a_tag['alt']
