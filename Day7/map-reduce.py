@@ -11,7 +11,7 @@ for x in items:
 	mylist.append(sqr(x))
 	
 mylist=map(sqr, items)
-mylist=map((lambda x: x **2), items)
+mylist=map(lambda x: x **2, items)
 
 funcs = [sqr, cub]
 for i in items:

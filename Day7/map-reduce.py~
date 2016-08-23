@@ -39,4 +39,9 @@ g = make_incrementor(6)
 
 print f(42), g(42)
 
+nums = range(2, 50) 
+for i in range(2, 8): 
+    nums = filter(lambda x: x == i or x % i, nums)
+
+print nums
 

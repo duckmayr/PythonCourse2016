@@ -155,6 +155,7 @@ mytree=Tree(node1)
 mytree.branches
 mytree.add_branch(node1,[node2,node3])
 mytree.add_branch(node2,[node4,node5])
+mytree.add_branch(node3,[node4,node5])
 
 ###				Graph				###
 
