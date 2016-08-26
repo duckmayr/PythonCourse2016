@@ -169,11 +169,12 @@ for region in session.query(Region).order_by(Region.name):
 # hint: use func.sum
 
 ## Setting up my own:
-## (This still needs some work!)
+## (This still needs some work... I have been having trouble figuring out the many-to-many relationship on the same table
+## for Opinions citing in and out)
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, and_, or_
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, and_, or_
 from sqlalchemy.orm import relationship, backref, sessionmaker
 engine = sqlalchemy.create_engine('sqlite:///C:/Users/owner/Documents/GitHub/MyPython/PythonCourse2016/Day9/judicial_network.db', echo=False)
 Base = declarative_base()
@@ -181,8 +182,9 @@ class Judge(Base):
 	__tablename__ = 'judges'
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
-	court = relationship("Court")
-	judge_opinions = relationship("Opinion")
+	court = relationship("Court", back_populates = "members")
+	judge_opinions = relationship("Opinion", back_populates = "author")
+	court_id = Column(Integer, ForeignKey('courts.id'))
 	def __init__(self, name):
 		self.name = name 
 	def __repr__(self):
@@ -191,8 +193,8 @@ class Court(Base):
 	__tablename__ = 'courts'
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
-	members = relationship("Judge")
-	ct_opinions = relationship("Opinion")
+	members = relationship("Judge", back_populates = "court")
+	ct_opinions = relationship("Opinion", back_populates = "court")
 	def __init__(self, name):
 		self.name = name 
 	def __repr__(self):
@@ -201,10 +203,12 @@ class Opinion(Base):
 	__tablename__ = 'opinions'
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
-	court = relationship("Court")
-	author = relationship("Judge")
-	cites_in = relationship("Case")
-	cites_out = relationship("Case")
+	ct_id = Column(Integer, ForeignKey('courts.id'))
+	author_id = Column(Integer, ForeignKey('judges.id'))
+	citedBy_id = Column(Integer, ForeignKey('opinions.id'))
+	court = relationship("Court", back_populates = "ct_opinions")
+	author = relationship("Judge", back_populates = "judge_opinions")
+	cites_out = relationship("Opinion", backref = "cites_in")
 	def __init__(self, name, citation, year):
 		self.name = name 
 		self.citation = citation
